@@ -28,7 +28,7 @@ export function LoginPage() {
         await signIn(email, password);
       } else {
         const { needsConfirmation } = await signUp(email, password);
-        if (needsConfirmation) setInfo("สมัครแล้ว กรุณายืนยันอีเมลจากลิงก์ในกล่องจดหมาย แล้วกลับมาเข้าสู่ระบบ");
+        if (needsConfirmation) setInfo("สมัครแล้ว ไม่ต้องยืนยันอีเมล เข้าสู่ระบบได้เลยในครั้งถัดไป");
       }
     } catch (err) {
       setError(translateAuthError(toError(err).message));
@@ -72,7 +72,7 @@ export function LoginPage() {
         <form className="stack" onSubmit={handleSubmit}>
           <div className="field">
             <label htmlFor="email" className="label muted">
-              อีเมล
+              อีเมล (ไม่ต้องเหมือนอีเมลจริงก็ได้จำให้ได้ก็พอ)
             </label>
             <input
               id="email"
@@ -86,7 +86,7 @@ export function LoginPage() {
           </div>
           <div className="field">
             <label htmlFor="password" className="label muted">
-              รหัสผ่าน {mode === "signup" && "(อย่างน้อย 8 ตัวอักษร)"}
+              รหัสผ่าน {mode === "signup" && "(>= 8 ตัวอักษร ไม่ต้องเหมือนรหัสอีเมลจริงก็ได้)"}
             </label>
             <input
               id="password"
