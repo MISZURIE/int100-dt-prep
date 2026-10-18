@@ -1,0 +1,24 @@
+# Supabase free projects pause after 7 days without requests.
+# This pings a public, read-only table every 3 days to keep the project awake.
+# Repo secrets needed: SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY (never the secret key).
+name: Supabase keepalive
+
+on:
+  schedule:
+    - cron: "0 3 */3 * *"
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Query stages
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_PUBLISHABLE_KEY: ${{ secrets.SUPABASE_PUBLISHABLE_KEY }}
+        run: |
+          curl --fail --silent --show-error \
+            -H "apikey: $SUPABASE_PUBLISHABLE_KEY" \
+            "$SUPABASE_URL/rest/v1/stages?select=id&limit=1"
